@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Konfirmasi Convert Pulsa</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        <div class="max-w-xl mx-auto">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-gray-800 sm:text-4xl">
+                    Konfirmasi Convert
+                </h1>
+                <p class="mt-1 text-gray-600 dark:text-neutral-400">
+                    Pastikan semua data yang anda masukkan sudah benar.
+                </p>
+            </div>
+
+            <div class="mt-12">
+                <h1 class="font-semibold text-lg">Detail Transaksi</h1>
+                <hr class="border-gray-300 my-2">
+                <div class="mt-2 text-gray-500 space-y-1">
+                    <div class="flex justify-between">
+                        <p>Provider</p>
+                        <p id="display-provider">-</p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p>Nomor</p>
+                        <p id="display-phone">-</p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p>Nominal</p>
+                        <p id="display-amount">-</p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p>Rate</p>
+                        <p id="display-rate">-</p>
+                    </div>
+                </div>
+
+                <hr class="border-gray-300 my-2">
+                <div class="flex justify-between items-center">
+                    <h1 class="font-semibold text-lg mt-2">Uang yang didapat</h1>
+                <div class="text-center">
+                    <h1 class="text-green-500 font-bold text-2xl" id="display-received">Rp 0</h1>
+                </div>
+                </div>
+
+                <h1 class="font-semibold text-lg mt-4">Detail Bank/E-Wallet</h1>
+                <hr class="border-gray-300 my-2">
+                <div class="mt-2 text-gray-500 space-y-1">
+                    <div class="flex justify-between">
+                        <p>Bank / E-Wallet</p>
+                        <p id="display-payment">-</p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p>No Rek / No Hp</p>
+                        <p id="display-destination">-</p>
+                    </div>
+                    <div class="flex justify-between">
+                        <p>Atas Nama</p>
+                        <p id="display-name">-</p>
+                    </div>
+                </div>
+
+                <h1 class="font-semibold text-lg mt-4">Syarat dan Ketentuan</h1>
+                <hr class="border-gray-300 my-2">
+                <p class="text-gray-500 mt-1">
+                    Apakah anda bisa memastikan pulsa anda bukan dari hasil kejahatan seperti: pencurian, hacking, judi online, vcs, dll?
+                </p>
+                <!-- Checkbox -->
+                <div class="mt-3 flex">
+                    <div class="flex">
+                        <input id="remember-me" name="remember-me" type="checkbox"
+                            class="w-8 shrink-0 mt-1.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500">
+                    </div>
+                    <div class="ms-3">
+                        <label for="remember-me" class="text-lg text-gray-600 dark:text-neutral-400">Saya pastikan aman</label>
+                    </div>
+                </div>
+                <!-- End Checkbox -->
+
+                <div class="mt-6">
+                    <a href="#" id="submit"
+                        class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+                        Convert via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load data from localStorage
+            const convertData = JSON.parse(localStorage.getItem('convertData'));
+            
+            if (!convertData) {
+                alert('Data tidak ditemukan. Silakan isi formulir terlebih dahulu.');
+                window.location.href = 'convert-pulsa.html';
+                return;
+            }
+
+            // Display data
+            document.getElementById('display-provider').textContent = convertData.provider;
+            document.getElementById('display-phone').textContent = convertData.phone_number;
+            document.getElementById('display-amount').textContent = parseInt(convertData.amount).toLocaleString('id-ID');
+            document.getElementById('display-rate').textContent = convertData.rate;
+            document.getElementById('display-received').textContent = 'Rp ' + convertData.amountReceived.toLocaleString('id-ID', {maximumFractionDigits: 0 });
+            document.getElementById('display-payment').textContent = convertData.payment;
+            document.getElementById('display-destination').textContent = convertData.destination_number;
+            document.getElementById('display-name').textContent = convertData.name;
+
+            const checkbox = document.getElementById('remember-me');
+            const submitLink = document.getElementById('submit');
+
+            // Function to update link state and WhatsApp URL
+            function updateLinkState() {
+                if (checkbox.checked) {
+                    submitLink.classList.remove('disabled');
+                    submitLink.style.pointerEvents = 'auto';
+                    submitLink.style.opacity = '1';
+                    
+                    // Generate WhatsApp message
+                    const message = `*Konfirmasi Convert Pulsa*
+
+*Detail Transaksi*
+====================
+Provider: ${convertData.provider}
+Nomor: ${convertData.phone_number}
+Nominal: ${parseInt(convertData.amount).toLocaleString('id-ID')}
+Rate: ${convertData.rate}
+
+*Uang yang didapat*
+=====================
+*Rp ${convertData.amountReceived.toLocaleString('id-ID', {minimumFractionDigits: 2, maximumFractionDigits: 2})}*
+
+*Detail Bank/E-Wallet*
+========================
+Bank / E-Wallet: ${convertData.payment}
+No Rek / No Hp: ${convertData.destination_number}
+Atas Nama: ${convertData.name}
+
+*Syarat dan Ketentuan*
+========================
+Saya pastikan pulsa bukan dari hasil kejahatan seperti: pencurian, hacking, judi online, vcs, dll.`;
+
+                    const encodedMessage = encodeURIComponent(message);
+                    const whatsappURL = `https://api.whatsapp.com/send/?phone=6282213756662&text=${encodedMessage}`;
+                    submitLink.href = whatsappURL;
+                } else {
+                    submitLink.classList.add('disabled');
+                    submitLink.style.pointerEvents = 'none';
+                    submitLink.style.opacity = '0.5';
+                    submitLink.href = '#';
+                }
+            }
+
+            // Set initial state
+            updateLinkState();
+
+            // Add event listener for checkbox changes
+            checkbox.addEventListener('change', updateLinkState);
+        });
+    </script>
+</body>
+
+</html>

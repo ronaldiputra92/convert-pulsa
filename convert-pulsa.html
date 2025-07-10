@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Form Convert Pulsa</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <!-- Hire Us -->
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        <div class="max-w-xl mx-auto">
+            <div class="text-center">
+                <h1 class="text-3xl font-bold text-gray-800 sm:text-4xl">
+                    Formulir
+                </h1>
+                <p class="mt-1 text-gray-600 dark:text-neutral-400">
+                    Silakan isi formulir di bawah ini untuk mengconvert pulsa
+                </p>
+            </div>
+
+            <div class="mt-12">
+                <!-- Form -->
+                <form id="convertForm" class="space-y-6">
+                    <div class="grid gap-4 lg:gap-6">
+                        <!-- Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                            <div class="">
+                                <label
+                                    class="block mb-2 text-sm text-gray-700 font-medium">
+                                    Provider
+                                </label>
+                                <select id="provider" name="provider"
+                                    class="border px-4 pe-9 block h-12 w-full border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                    required>
+                                    <option value="Telkomsel">Telkomsel</option>
+                                    <option value="Indosat">Indosat</option>
+                                    <option value="Tri">Tri</option>
+                                    <option value="Axis">Axis</option>
+                                    <option value="XL">XL</option>
+                                    <option value="Smartfren">Smartfren</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block mb-2 text-sm text-gray-700 font-medium">
+                                    No Handphone
+                                </label>
+                                <input type="text" id="phone_number" name="phone_number" value=""
+                                    class="py-2.5 sm:py-3 px-4 block w-full border border-gray-300 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                    required>
+                            </div>
+                        </div>
+                        <!-- End Grid -->
+
+                        <div>
+                            <label class="block mb-2 text-sm text-gray-700 font-medium">
+                                Nominal Pulsa
+                            </label>
+                            <input type="number" id="amount" name="amount" value=""
+                                class="py-2.5 sm:py-3 px-4 block w-full border border-gray-300 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                required>
+                            <div class="text-yellow-500 text-base font-semibold py-2">
+                                <!-- note -->
+                                <p>Minimal Convert Rp.50.000</p>
+                            </div>
+                            </div>
+
+                        <!-- Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+                            <div class="">
+                                <label
+                                    class="block mb-2 text-sm text-gray-700 font-medium">
+                                    Rekening/E-Wallet
+                                </label>
+                                <select id="payment" name="payment"
+                                    class="border px-4 pe-9 block h-12 w-full border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                    required>
+                                           <option value="Dana">Dana</option>
+                                        <option value="Gopay">Gopay</option>
+                                        <option value="Ovo">Ovo</option>
+                                    </select>
+                                </div>
+                            <div>
+                                <label class="block mb-2 text-sm text-gray-700 font-medium">
+                                    No Rekening/E-Wallet
+                                </label>
+                                <input type="text" id="destination_number" name="destination_number" value=""
+                                    class="py-2.5 sm:py-3 px-4 block w-full border border-gray-300 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                    required>
+                            </div>
+                        </div>
+                        <!-- End Grid -->
+
+                        <div>
+                            <label class="block mb-2 text-sm text-gray-700 font-medium">
+                                Nama Anda
+                            </label>
+                            <input type="text" id="name" name="name" value=""
+                                class="py-2.5 sm:py-3 px-4 block w-full border border-gray-300 rounded-lg sm:text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                required>
+                        </div>
+                    </div>
+                    <!-- End Grid -->
+
+                    <div class="mt-6 grid">
+                        <button type="submit"
+                            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none cursor-pointer">
+                            Lanjut ke Konfirmasi
+                        </button>
+                    </div>
+                </form>
+                <!-- End Form -->
+            </div>
+        </div>
+    </div>
+    <!-- End Hire Us -->
+
+    <script>
+        document.getElementById('convertForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                provider: document.getElementById('provider').value,
+                phone_number: document.getElementById('phone_number').value,
+                amount: document.getElementById('amount').value,
+                payment: document.getElementById('payment').value,
+                destination_number: document.getElementById('destination_number').value,
+                name: document.getElementById('name').value
+            };
+            
+            // Validate minimum amount
+            if (parseInt(formData.amount) < 50000) {
+                alert('Minimal Convert Rp.50.000');
+                return;
+            }
+            
+            // Define rates for each provider
+            const providerRates = {
+                'Telkomsel': 0.88,
+                'Indosat': 0.87,
+                'Tri': 0.93,
+                'Axis': 0.90,
+                'XL': 0.89,
+                'Smartfren': 0.86
+            };
+            
+            // Get rate based on provider
+            const rate = providerRates[formData.provider];
+            const amountReceived = parseInt(formData.amount) * rate;
+            
+            formData.amountReceived = amountReceived;
+            formData.rate = (rate * 100) + '%';
+            formData.rateDecimal = rate;
+            
+            // Store data in localStorage
+            localStorage.setItem('convertData', JSON.stringify(formData));
+            
+            // Redirect to confirmation page
+            window.location.href = 'konfirmasi-convert.html';
+        });
+    </script>
+</body>
+
+</html>

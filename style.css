@@ -1,0 +1,18 @@
+body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Updated mobile menu styling */
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out, opacity 0.2s ease-out;
+            transform: translateY(-100%);
+            opacity: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
